@@ -13,12 +13,12 @@ add_requires("minhook")
 add_requires("vcpkg::detours")
 add_requires("vcpkg::inipp")
 
-local name = "kpatch"
-target(name)
-    set_kind("shared")
-    add_files("kpatch/dllmain.cpp")
-    add_packages("spdlog", "vcpkg::detours", "minhook", "vcpkg::inipp")
-    add_links("user32", "gdi32")
+-- local name = "kpatch"
+-- target(name)
+--     set_kind("shared")
+--     add_files("kpatch/dllmain.cpp")
+--     add_packages("spdlog", "vcpkg::detours", "minhook", "vcpkg::inipp")
+--     add_links("user32", "gdi32")
 
 -- local name = "necola_s"
 -- target(name)
@@ -47,10 +47,10 @@ target(name)
     add_links("user32", "gdi32")
     add_packages("vcpkg::detours")
 
-local name = "left4dead2_fix"
-target(name)
-    set_kind("binary")
-    add_files("launcher_with_fix/main.cpp")
-    add_files("assets/app.rc")
-    add_links("user32", "gdi32")
-    add_packages("vcpkg::detours")
+-- local name = "left4dead2_fix"
+-- target(name)
+--     set_kind("binary")
+--     add_files("launcher_with_fix/main.cpp")
+--     add_files("assets/app.rc")
+--     add_links("user32", "gdi32")
+--     add_packages("vcpkg::detours")
