@@ -1,11 +1,12 @@
 <div align="center">
-   <img width="640" src="LOGO.png" alt="logo"/></br>
-
+   <img width="360" src="LOGO.png" alt="logo"/></br>
 
 ----
 just an open-source tool for personal use
 </div>
+
 ## Necola
+
 ### Build
 ```
 just build
