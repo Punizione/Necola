@@ -181,12 +181,12 @@ bool __fastcall GameEventManager::FireEventClient::Detour(void* ecx, void* edx, 
                     spdlog::debug("FireEventClient: [{}] userid: [{}] weaponid: [{}]", name, userid, weaponId);
                     if(G::Util.isNecolaCounterWeapon(weaponId)) {
                         if(G::Util.isFirstWeapon(weaponId)) {
-                            if(G::NecolaCounter.first != weaponId){
+                            if(G::NecolaCounter.weapon_first != weaponId){
                                 G::NecolaCounter.resetFirst(weaponId);
                                 G::Util.setFirst();
                             }
                         } else if(G::Util.isSecondWeapon(weaponId)) {
-                            if(G::NecolaCounter.second != weaponId){
+                            if(G::NecolaCounter.weapon_second != weaponId){
                                 G::NecolaCounter.resetSecond(weaponId);
                                 G::Util.setSecond();
                             }
@@ -228,7 +228,7 @@ bool __fastcall GameEventManager::FireEventClient::Detour(void* ecx, void* edx, 
 
 void GameEventManager::Init()
 {
-	Table.Init(I::GameEventManager);
-	// Table.Hook(&FireEvent::Detour, FireEvent::Index);
+    Table.Init(I::GameEventManager);
+    // Table.Hook(&FireEvent::Detour, FireEvent::Index);
     Table.Hook(&FireEventClient::Detour, FireEventClient::Index);
 }
