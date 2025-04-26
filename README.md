@@ -1,13 +1,11 @@
 <div align="center">
-   <img width="160" src="LOGO.png" alt="logo"/></br>
-</div>
+   <img width="0" src="LOGO.png" alt="logo"/></br>
+
 
 ----
-
-### Necola
-
 just an open-source tool for personal use
-
+</div>
+## Necola
 ### Build
 ```
 just build
