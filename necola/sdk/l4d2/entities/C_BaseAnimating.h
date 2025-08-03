@@ -173,3 +173,10 @@ public:
 	M_NETVAR(m_blinktoggle, int, "CBaseFlex", "m_blinktoggle");
 	M_NETVAR(m_viewtarget, Vector, "CBaseFlex", "m_viewtarget");
 };
+
+
+class C_BaseViewModel : public C_BaseAnimating
+{
+public:
+	virtual						~C_BaseViewModel() = 0;
+};

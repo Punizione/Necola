@@ -228,7 +228,7 @@ bool __fastcall GameEventManager::FireEventClient::Detour(void* ecx, void* edx, 
 
 void GameEventManager::Init()
 {
-    Table.Init(I::GameEventManager);
-    // Table.Hook(&FireEvent::Detour, FireEvent::Index);
+	Table.Init(I::GameEventManager);
+	// Table.Hook(&FireEvent::Detour, FireEvent::Index);
     Table.Hook(&FireEventClient::Detour, FireEventClient::Index);
 }

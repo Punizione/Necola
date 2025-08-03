@@ -9,6 +9,7 @@ public:
 
 public:
 	DWORD m_dwClientMode = 0x0;
+	DWORD m_dwGlobalVars = 0x0;
 };
 
 namespace U { inline CUtil_Offsets Offsets; }

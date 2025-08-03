@@ -19,9 +19,62 @@ void CGlobal_ModuleEntry::Load()
 		I::EngineClient     = U::Interface.Get<IVEngineClient*>("engine.dll", "VEngineClient013");
 		{
 			I::ClientMode = **reinterpret_cast<void***>(U::Offsets.m_dwClientMode);
+			I::GlobalVars = **reinterpret_cast<CGlobalVarsBase***>(U::Offsets.m_dwGlobalVars);
 		}
 	}
+	G::InputManagerI.Init();
 	G::Hooks.Init();
+	{
+		G::InputManagerI.AddHotkey(0x52, [](){
+			if(I::EngineClient) {
+				if(I::EngineClient->IsConnected() && I::EngineClient->IsInGame()) {
+					C_TerrorPlayer* pLocal = I::ClientEntityList->GetClientEntity(I::EngineClient->GetLocalPlayer())->As<C_TerrorPlayer*>();
+					if (pLocal && !pLocal->deadflag())
+					{
+						if(pLocal->CanAttackFull())
+						{
+							C_TerrorWeapon* pWeapon = pLocal->GetActiveWeapon()->As<C_TerrorWeapon*>();
+							if (pWeapon)
+							{
+								//std::wcout <<  "CanPrimaryAttack["<< pWeapon->CanPrimaryAttack() <<"] CanSecondaryAttack[" << pWeapon->CanSecondaryAttack() << "]" <<  std::endl;
+								if(pWeapon->CanPrimaryAttack())
+								{
+									int weaponId = pWeapon->GetWeaponID();
+		
+									if(weaponId == WEAPON_MELEE)
+									{
+										pWeapon->SendWeaponAnim(ACT_VM_ITEMPICKUP_LOOP_LAYER);
+									}
+
+									else if (G::Util.isNecolaWeapon(weaponId)) 
+									{
+
+										int currentAmmo = pWeapon->m_iClip1();
+										int maxAmmo = pWeapon->GetMaxClip1();
+										//std::wcout <<  "currentAmmo["<< currentAmmo <<"] maxAmmo[" << maxAmmo << "]" <<  std::endl;
+										if(currentAmmo == maxAmmo)
+										{
+											if(weaponId == WEAPON_HUNTING_RIFLE)
+											{
+												pWeapon->SendWeaponAnim(ACT_VM_ITEMPICKUP_LOOP_SNIPER_LAYER);
+											}
+											else
+											{
+												pWeapon->SendWeaponAnim(ACT_VM_ITEMPICKUP_LOOP_LAYER);
+											}
+											
+										}
+									}
+								}
+								
+							}
+						}
+
+					}
+				}
+			}
+		});
+	}
 	G::NecolaCounter.resetAll();
 	G::Util.setFirst();
 	G::Util.setSecond();
@@ -30,4 +83,5 @@ void CGlobal_ModuleEntry::Load()
 void CGlobal_ModuleEntry::undo()
 {
 	G::Hooks.undo();
+	G::InputManagerI.undo();
 }

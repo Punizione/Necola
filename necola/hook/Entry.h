@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Hooks.h"
+#include "InputManager.h"
 
 class CGlobal_ModuleEntry
 {
