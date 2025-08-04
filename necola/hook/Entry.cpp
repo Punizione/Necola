@@ -25,54 +25,64 @@ void CGlobal_ModuleEntry::Load()
 	G::InputManagerI.Init();
 	G::Hooks.Init();
 	{
-		G::InputManagerI.AddHotkey(0x52, [](){
-			if(I::EngineClient) {
-				if(I::EngineClient->IsConnected() && I::EngineClient->IsInGame()) {
-					C_TerrorPlayer* pLocal = I::ClientEntityList->GetClientEntity(I::EngineClient->GetLocalPlayer())->As<C_TerrorPlayer*>();
-					if (pLocal && !pLocal->deadflag())
-					{
-						if(pLocal->CanAttackFull())
+		G::Vars.Load();
+		G::InputManagerI.AddHotkey(G::Vars.inspectKey, [](){
+			if(G::Vars.openInspect)
+			{
+				if(I::EngineClient) {
+					if(I::EngineClient->IsConnected() && I::EngineClient->IsInGame()) {
+						C_TerrorPlayer* pLocal = I::ClientEntityList->GetClientEntity(I::EngineClient->GetLocalPlayer())->As<C_TerrorPlayer*>();
+						if (pLocal && !pLocal->deadflag())
 						{
-							C_TerrorWeapon* pWeapon = pLocal->GetActiveWeapon()->As<C_TerrorWeapon*>();
-							if (pWeapon)
+							if(pLocal->CanAttackFull())
 							{
-								//std::wcout <<  "CanPrimaryAttack["<< pWeapon->CanPrimaryAttack() <<"] CanSecondaryAttack[" << pWeapon->CanSecondaryAttack() << "]" <<  std::endl;
-								if(pWeapon->CanPrimaryAttack())
+								C_TerrorWeapon* pWeapon = pLocal->GetActiveWeapon()->As<C_TerrorWeapon*>();
+								if (pWeapon)
 								{
-									int weaponId = pWeapon->GetWeaponID();
-		
-									if(weaponId == WEAPON_MELEE)
+									//std::wcout <<  "CanPrimaryAttack["<< pWeapon->CanPrimaryAttack() <<"] CanSecondaryAttack[" << pWeapon->CanSecondaryAttack() << "]" <<  std::endl;
+									if(pWeapon->CanPrimaryAttack())
 									{
-										pWeapon->SendWeaponAnim(ACT_VM_ITEMPICKUP_LOOP_LAYER);
-									}
-
-									else if (G::Util.isNecolaWeapon(weaponId)) 
-									{
-
-										int currentAmmo = pWeapon->m_iClip1();
-										int maxAmmo = pWeapon->GetMaxClip1();
-										//std::wcout <<  "currentAmmo["<< currentAmmo <<"] maxAmmo[" << maxAmmo << "]" <<  std::endl;
-										if(currentAmmo == maxAmmo)
+										int weaponId = pWeapon->GetWeaponID();
+			
+										if(weaponId == WEAPON_MELEE)
 										{
-											if(weaponId == WEAPON_HUNTING_RIFLE)
+											pWeapon->SendWeaponAnim(ACT_VM_ITEMPICKUP_LOOP_LAYER);
+										}
+
+										else if (G::Util.isNecolaWeapon(weaponId)) 
+										{
+
+											int currentAmmo = pWeapon->m_iClip1();
+											int maxAmmo = pWeapon->GetMaxClip1();
+											//std::wcout <<  "currentAmmo["<< currentAmmo <<"] maxAmmo[" << maxAmmo << "]" <<  std::endl;
+											if(currentAmmo == maxAmmo)
 											{
-												pWeapon->SendWeaponAnim(ACT_VM_ITEMPICKUP_LOOP_SNIPER_LAYER);
+												if(weaponId == WEAPON_HUNTING_RIFLE)
+												{
+													pWeapon->SendWeaponAnim(ACT_VM_ITEMPICKUP_LOOP_SNIPER_LAYER);
+												}
+												else
+												{
+													pWeapon->SendWeaponAnim(ACT_VM_ITEMPICKUP_LOOP_LAYER);
+												}
+												
 											}
-											else
-											{
-												pWeapon->SendWeaponAnim(ACT_VM_ITEMPICKUP_LOOP_LAYER);
-											}
-											
 										}
 									}
+									
 								}
-								
 							}
-						}
 
+						}
 					}
-				}
 			}
+			}
+			
+		});
+
+
+		G::InputManagerI.AddHotkey(VK_END, [](){
+			G::Vars.openInspect = !G::Vars.openInspect;
 		});
 	}
 	G::NecolaCounter.resetAll();

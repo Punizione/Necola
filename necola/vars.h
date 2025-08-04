@@ -13,7 +13,7 @@
 // Version
 std::string sFixName = "L4D2-Necola";
 std::string sLogFile = sFixName + ".log";
-std::string sFixVer = "1.0a";
+std::string sFixVer = "1.2beta";
 
 // Logger
 std::shared_ptr<spdlog::logger> logger;
@@ -27,6 +27,7 @@ namespace  System {
     bool debug;
     std::wstring target;
     std::wstring cmdLine;
+
 }
 
 }

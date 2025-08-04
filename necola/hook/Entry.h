@@ -2,6 +2,7 @@
 
 #include "Hooks.h"
 #include "InputManager.h"
+#include "Vars.h"
 
 class CGlobal_ModuleEntry
 {
