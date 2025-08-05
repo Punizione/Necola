@@ -47,6 +47,7 @@ void CGlobal_ModuleEntry::Load()
 										if(weaponId == WEAPON_MELEE)
 										{
 											pWeapon->SendWeaponAnim(ACT_VM_ITEMPICKUP_LOOP_LAYER);
+											//pWeapon->SetActivity(ACT_VM_ITEMPICKUP_LOOP_LAYER, 0);
 										}
 
 										else if (G::Util.isNecolaWeapon(weaponId)) 

@@ -67,7 +67,11 @@ DWORD __stdcall Hook_necola(LPVOID lpParam)
 
     LoadIni();
     Logging();
-    std::wstring cmdline = GetCommandLineW();
+    std::wstring cmdline = cfg::System::cmdLine;
+    if(cmdline.empty())
+    {
+        std::wstring cmdline = GetCommandLineW();
+    }
     spdlog::info(L"Startup commandline: {}", cmdline.c_str());
     // InitConsole();
     spdlog::info("Necola Start!");
@@ -98,10 +102,11 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserv
             
         break;
     }
-    case DLL_PROCESS_DETACH: {
-        Undo_necola();
-        break;
-    }}
+    //case DLL_PROCESS_DETACH: {
+    //    Undo_necola();
+    //    break;
+    //}
+}
     return TRUE;
 }
 

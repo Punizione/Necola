@@ -45,6 +45,7 @@ int WINAPI wWinMain(
 
     LPCWSTR target_exe_path = game_name.c_str();
     LPWSTR final_cmd_line = cmdline.data();
+
     STARTUPINFOW si;
     PROCESS_INFORMATION pi;
 
@@ -54,6 +55,7 @@ int WINAPI wWinMain(
     si.cb = sizeof(si);
     // 
     DWORD dwFlags =  CREATE_SUSPENDED;
+    //SetEnvironmentVariableW(L"FINAL_CMD_LINE", final_cmd_line);
     SetLastError(0);
     if (TRUE != DetourCreateProcessWithDllExW(
             target_exe_path,
@@ -79,7 +81,7 @@ int WINAPI wWinMain(
     CloseHandle(pi.hProcess);
 
     // ResumeThread(pi.hThread);
-    // WaitForSingleObject(pi.hProcess, INFINITE);
+    //WaitForSingleObject(pi.hProcess, INFINITE);
 
     // CloseHandle(pi.hProcess);
     // CloseHandle(pi.hThread);
