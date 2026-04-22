@@ -1,8 +1,10 @@
 #pragma once
 
 #include "Hooks.h"
-#include "InputManager.h"
 #include "Vars.h"
+
+#include "Feature/InputManager/InputManager.h"
+
 
 class CGlobal_ModuleEntry
 {

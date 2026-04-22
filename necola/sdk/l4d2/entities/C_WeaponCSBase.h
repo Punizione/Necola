@@ -182,8 +182,9 @@ public:
 	M_NETVAR(m_iViewModelIndex, int, "CBaseCombatWeapon", "m_iViewModelIndex");
 	M_NETVAR(m_iWorldModelIndex, int, "CBaseCombatWeapon", "m_iWorldModelIndex");
 	M_NETVAR(m_iState, int, "CBaseCombatWeapon", "m_iState");
-	M_NETVAR(m_hOwner, int, "CBaseCombatWeapon", "m_hOwner");
+	M_NETVAR(m_hOwner, EHANDLE, "CBaseCombatWeapon", "m_hOwner");
 	M_NETVAR(m_bInReload, bool, "CBaseCombatWeapon", "m_bInReload");
+
 };
 
 class C_WeaponCSBase : public C_BaseCombatWeapon
@@ -241,4 +242,12 @@ public:
 
 public:
 	M_NETVAR(m_iExtraPrimaryAmmo, int, "CWeaponCSBase", "m_iExtraPrimaryAmmo");
+
+// public:
+// 	inline CMeleeWeaponInfoStore* getMeleeWeaponInfoStore() {
+// 		return reinterpret_cast<CMeleeWeaponInfoStore*(__thiscall*)(void*)>(U::Offsets.m_dwGetMeleeWeaponInfoStore)(this);
+// 	}
+
 };
+
+

@@ -20,11 +20,7 @@ public:
 	{
 		if (!this)
 			return nullptr;
-
-#ifdef _DEBUG
-		return dynamic_cast<T>(this);
-#else
 		return static_cast<T>(this);
-#endif
 	}
+
 };

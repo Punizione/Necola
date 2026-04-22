@@ -4,6 +4,7 @@
 
 #define BCC_DEFAULT_LOOK_TOWARDS_TOLERANCE 0.9f
 
+
 class C_BaseCombatCharacter : public C_BaseFlex
 {
 public:
@@ -41,13 +42,27 @@ private:
 public:
 	virtual	bool					Weapon_Switch(C_BaseCombatWeapon* pWeapon, int viewmodelindex = 0) = 0;
 	virtual bool					Weapon_CanSwitchTo(C_BaseCombatWeapon* pWeapon) = 0;
-	virtual C_BaseCombatWeapon*		Weapon_GetSlot(int slot) const = 0;
+	virtual int						Weapon_GetSlot( const char *pszWeapon, int iSubType = 0 ) const;  
+	//virtual C_BaseCombatWeapon*		Weapon_GetSlot(int slot) const = 0;
 	virtual C_BaseCombatWeapon*		GetActiveWeapon(void) const = 0;
+	virtual C_BaseCombatWeapon*		GetWeapon(int i) const = 0;
+	
+
 
 public:
 	M_NETVAR(m_flNextAttack, float, "CBaseCombatCharacter", "m_flNextAttack");
 	M_NETVAR(m_hActiveWeapon, EHANDLE, "CBaseCombatCharacter", "m_hActiveWeapon");
-	M_NETVAR(m_hMyWeapons, EHANDLE*, "CBaseCombatCharacter", "m_hMyWeapons");
+	//M_NETVAR(m_hMyWeapons, CHandle<C_BaseCombatWeapon>*, "CBaseCombatCharacter", "m_hMyWeapons");
+	//M_NETVAR_SPEC(m_hMyWeapons, EHANDLE*, "CBaseCombatCharacter", "m_hMyWeapons");
+
+public:
+	inline CHandle<C_BaseCombatWeapon>* m_hMyWeapons() const
+	{
+		static int _m_hMyWeapons = U::NetVar.Get("CBaseCombatCharacter", "m_hMyWeapons");
+		return (CHandle<C_BaseCombatWeapon>*)((uintptr_t)this + (_m_hMyWeapons ));
+	}
+
+
 };
 
 class C_NextBotCombatCharacter : public C_BaseCombatCharacter

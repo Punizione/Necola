@@ -1,6 +1,7 @@
 #pragma once
 
 #include "EngineClient.h"
+#include "../includes/ehandle.h"
 
 class C_BaseEntity;
 class IHandleEntity;
@@ -24,7 +25,7 @@ enum TraceType_t {
 class ITraceFilter
 {
 public:
-	virtual bool ShouldHitEntity(IHandleEntity* pEntity, int contentsMask) = 0;
+	virtual bool			ShouldHitEntity(C_BaseEntity* pEntity, int mask) = 0;
 	virtual TraceType_t	GetTraceType() const = 0;
 };
 
@@ -57,7 +58,7 @@ struct Ray_t
 	Ray_t(const Vector vStart, const Vector vEnd)
 	{
 		m_Delta = VectorAligned(vEnd - vStart);
-		m_IsSwept = (m_Delta.LenghtSqr() != 0);
+		m_IsSwept = (m_Delta.LengthSqr() != 0);
 		m_Extents.Init();
 		m_pWorldAxisTransform = 0;
 		m_IsRay = true;
@@ -76,7 +77,7 @@ struct Ray_t
 	void Init(const Vector vStart, const Vector vEnd)
 	{
 		m_Delta = VectorAligned(vEnd - vStart);
-		m_IsSwept = (m_Delta.LenghtSqr() != 0);
+		m_IsSwept = (m_Delta.LengthSqr() != 0);
 		m_Extents.Init();
 		m_pWorldAxisTransform = 0;
 		m_IsRay = true;
@@ -213,42 +214,32 @@ public:
 
 namespace I { inline IEngineTrace* EngineTrace = nullptr; }
 
-class CTraceFilterWorldAndPropsOnly : public ITraceFilter
-{
-public:
-	bool ShouldHitEntity(IHandleEntity* pServerEntity, int contentsMask) {
-		return false;
-	}
+// class CTraceFilterWorldAndPropsOnly : public ITraceFilter
+// {
+// public:
+// 	bool ShouldHitEntity(IHandleEntity* pServerEntity, int contentsMask) {
+// 		return false;
+// 	}
 
-	virtual TraceType_t	GetTraceType() const {
-		return TRACE_EVERYTHING;
-	}
-};
+// 	virtual TraceType_t	GetTraceType() const {
+// 		return TRACE_EVERYTHING;
+// 	}
+// };
 
 class CTraceFilter : public ITraceFilter
 {
 public:
-	virtual TraceType_t	GetTraceType() const {
+	virtual bool ShouldHitEntity(C_BaseEntity* pEntityHandle, int contentsMask) override
+	{
+		return false;
+	}
+	virtual TraceType_t GetTraceType() const override
+	{
 		return TRACE_EVERYTHING;
 	}
+
+	C_BaseEntity* pSkip1;
 };
 
-class CTraceFilterHitAll : public CTraceFilter
-{
-public:
-	CTraceFilterHitAll() {
-		m_pIgnore = nullptr;
-	}
 
-	CTraceFilterHitAll(IHandleEntity* pIgnore) {
-		m_pIgnore = pIgnore;
-	}
 
-public:
-	virtual bool ShouldHitEntity(IHandleEntity* pServerEntity, int contentsMask) {
-		return (pServerEntity != m_pIgnore);
-	}
-
-private:
-	IHandleEntity* m_pIgnore = nullptr;
-};

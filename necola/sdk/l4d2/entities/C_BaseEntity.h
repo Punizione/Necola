@@ -1,7 +1,7 @@
 #pragma once
 
 #include "IClientEntity.h"
-
+#include "../includes/takedamageinfo.h"
 class C_BaseEntity;
 class IClientVehicle;
 class CTakeDamageInfo;
@@ -265,4 +265,10 @@ public:
 	inline unsigned char& m_MoveType() {
 		return *reinterpret_cast<unsigned char*>(reinterpret_cast<DWORD>(this) + 0x144);
 	}
+
+	inline bool SetModelInternalOffset(const char* modelName) {
+		return reinterpret_cast<bool(__thiscall*)(void*, const char*)>(U::Offsets.m_dwSetModel)(this, modelName);
+	}
+
+
 };

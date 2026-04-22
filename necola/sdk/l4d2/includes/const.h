@@ -321,10 +321,14 @@ enum EWeaponID {
 	WEAPON_MELEE,
 	WEAPON_CHAINSAW,
 	WEAPON_GRENADE_LAUNCHER,
+	WEAPON_AMMO_PACK = 22,
 	WEAPON_ADRENALINE = 23,
 	WEAPON_DEFIBRILLATOR,
 	WEAPON_VOMITJAR,
 	WEAPON_AK47,
+	WEAPON_GNOME,
+	WEAPON_COLA,
+	WEAPON_FIREWORK = 29,
 	WEAPON_UPGRADEPACK_INCENDIARY = 30,
 	WEAPON_UPGRADEPACK_EXPLOSIVE,
 	WEAPON_DEAGLE,
@@ -334,7 +338,87 @@ enum EWeaponID {
 	WEAPON_SCOUT,
 	WEAPON_M60,
 
-	WEAPON_MAX
+	UNUSE_TANK_CLAW = 38,
+	UNUSE_HUNTER_CLAW,
+	UNUSE_CHARGER_CLAW,
+	UNUSE_BOOMER_CLAW,
+	UNUSE_SMOKER_CLAW,
+	UNUSE_SPITTER_CLAW,
+	UNUSE_JOCKEY_CLAW,
+	UNUSE_MACHINEGUN,
+	UNUSE_VOMIT,
+	UNUSE_SPLAT,
+	UNUSE_POUNCE,
+	UNUSE_LOUNGE,
+	UNUSE_PULL,
+	UNUSE_CHOKE,
+	UNUSE_ROCK,
+	UNUSE_PHYSICS,
+	UNUSE_AMMO,
+	UNUSE_UPGRADE_ITEM = 55,
+
+	WEAPON_MAX = 70
+};
+
+//24.12.2021
+enum EWeaponNecolaID {
+	NECOLA_WEAPON_PISTOL = 1,
+	NECOLA_WEAPON_UZI,
+	NECOLA_WEAPON_PUMP_SHOTGUN,
+	NECOLA_WEAPON_AUTO_SHOTGUN,
+	NECOLA_WEAPON_M16A1,
+	NECOLA_WEAPON_HUNTING_RIFLE,
+	NECOLA_WEAPON_MAC10,
+	NECOLA_WEAPON_CHROME_SHOTGUN,
+	NECOLA_WEAPON_SCAR,
+	NECOLA_WEAPON_MILITARY_SNIPER,
+	NECOLA_WEAPON_SPAS,
+	NECOLA_WEAPON_FIRSTAID_KIT,
+	NECOLA_WEAPON_MOLOTOV,
+	NECOLA_WEAPON_PIPEBOMB,
+	NECOLA_WEAPON_PAINPILLS,
+	NECOLA_WEAPON_GASCAN,
+	NECOLA_WEAPON_PROPANE_TANK,
+	NECOLA_WEAPON_OXYGEN_TANK,
+	NECOLA_WEAPON_MELEE = 19,
+	NECOLA_WEAPON_CHAINSAW,
+	NECOLA_WEAPON_GRENADE_LAUNCHER,
+	NECOLA_WEAPON_ADRENALINE = 23,
+	NECOLA_WEAPON_DEFIBRILLATOR,
+	NECOLA_WEAPON_VOMITJAR,
+	NECOLA_WEAPON_AK47,
+	NECOLA_WEAPON_COLA,
+	NECOLA_WEAPON_GNOME,
+	NECOLA_WEAPON_FIREWORK = 29,
+	NECOLA_WEAPON_UPGRADEPACK_INCENDIARY = 30,
+	NECOLA_WEAPON_UPGRADEPACK_EXPLOSIVE,
+	NECOLA_WEAPON_DEAGLE,
+	NECOLA_WEAPON_MP5,
+	NECOLA_WEAPON_SSG552,
+	NECOLA_WEAPON_AWP,
+	NECOLA_WEAPON_SCOUT,
+	NECOLA_WEAPON_M60 = 37,
+
+	NECOLA_WEAPON_MAX = 38,
+	
+	NECOLA_WEAPON_MELEE_BAT = 60,
+	NECOLA_WEAPON_MELEE_CRICKETBAT = 61,
+	NECOLA_WEAPON_MELEE_CROWBAR = 62,
+	NECOLA_WEAPON_MELEE_GUITAR = 63,
+	NECOLA_WEAPON_MELEE_FIREAXE = 64,
+	NECOLA_WEAPON_MELEE_PAN = 65,
+	NECOLA_WEAPON_MELEE_GOLFGLUB = 66,
+	NECOLA_WEAPON_MELEE_KATANA = 67,
+	NECOLA_WEAPON_MELEE_KNIFE = 68,
+	NECOLA_WEAPON_MELEE_MACHETE = 69,
+	NECOLA_WEAPON_MELEE_PITCHFORK = 70,
+	NECOLA_WEAPON_MELEE_SHIELD = 71,
+	NECOLA_WEAPON_MELEE_SHOVEL = 72,
+	NECOLA_WEAPON_MELEE_TONFA = 73,
+
+	NECOLA_AMMOSPAWN = 80,
+	NECOLA_LASER = 81,
+	NECOLA_WEAPON_PISTOL_DUAL = 82
 };
 
 //26.12.2021
@@ -2115,7 +2199,7 @@ enum Activity
 	ACT_VM_USABLE_TO_UNUSABLE,
 	ACT_PRIMARY_VM_DRAW,
 	ACT_PRIMARY_VM_HOLSTER,
-	ACT_PRIMARY_VM_IDLE,
+	ACT_PRIMARY_VM_IDLE = 1873,
 	ACT_PRIMARY_VM_PULLBACK,
 	ACT_PRIMARY_VM_PRIMARYATTACK,
 	ACT_PRIMARY_VM_SECONDARYATTACK,
@@ -2179,6 +2263,190 @@ enum Activity
 	ACT_ITEM2_VM_IDLE_TO_LOWERED,
 	ACT_ITEM2_VM_IDLE_LOWERED,
 	ACT_ITEM2_VM_LOWERED_TO_IDLE,
+	ACT_PRIMARY_VM_MELEE = 2001,
+	ACT_PRIMARY_VM_INSPECT,
+	ACT_PRIMARY_VM_DRYFIRE_LEFT,
+	ACT_PRIMARY_VM_RELOAD_EMPTY,
+	ACT_PRIMARY_VM_RELOAD_LOOP,
+	ACT_PRIMARY_VM_RELOAD_END,
+	// ADS Level 1→next transition
+	ACT_PRIMARY_VM_IDLE_TO_NEXT,
+	ACT_SECONDARY_VM_MELEE,
+	ACT_SECONDARY_VM_INSPECT,
+	ACT_SECONDARY_VM_DRYFIRE_LEFT,
+	ACT_SECONDARY_VM_RELOAD_EMPTY,
+	ACT_SECONDARY_VM_RELOAD_LOOP,
+	ACT_SECONDARY_VM_RELOAD_END,
+	ACT_SECONDARY_VM_IDLE_TO_NEXT,
+
+	ACT_TERTIARY_VM_IDLE,
+	ACT_TERTIARY_VM_PRIMARYATTACK,
+	ACT_TERTIARY_VM_SECONDARYATTACK,
+	ACT_TERTIARY_VM_RELOAD,
+	ACT_TERTIARY_VM_DRYFIRE,
+	ACT_TERTIARY_VM_IDLE_TO_LOWERED,
+	ACT_TERTIARY_VM_LOWERED_TO_IDLE,
+	ACT_TERTIARY_VM_MELEE,
+	ACT_TERTIARY_VM_INSPECT,
+	ACT_TERTIARY_VM_DRYFIRE_LEFT,
+	ACT_TERTIARY_VM_RELOAD_EMPTY,
+	ACT_TERTIARY_VM_RELOAD_LOOP,
+	ACT_TERTIARY_VM_RELOAD_END,
+	ACT_TERTIARY_VM_IDLE_TO_NEXT,
+
+	ACT_FOURTH_VM_IDLE,
+	ACT_FOURTH_VM_PRIMARYATTACK,
+	ACT_FOURTH_VM_SECONDARYATTACK,
+	ACT_FOURTH_VM_RELOAD,
+	ACT_FOURTH_VM_DRYFIRE,
+	ACT_FOURTH_VM_IDLE_TO_LOWERED,
+	ACT_FOURTH_VM_LOWERED_TO_IDLE,
+	ACT_FOURTH_VM_MELEE,
+	ACT_FOURTH_VM_INSPECT,
+	ACT_FOURTH_VM_DRYFIRE_LEFT,
+	ACT_FOURTH_VM_RELOAD_EMPTY,
+	ACT_FOURTH_VM_RELOAD_LOOP,
+	ACT_FOURTH_VM_RELOAD_END,
+	ACT_FOURTH_VM_IDLE_TO_NEXT,
+
+	// MIXED transition activities (enter/exit MIXED per state)
+	ACT_VM_MIXED_ON,
+	ACT_VM_MIXED_OFF,
+	ACT_PRIMARY_VM_MIXED_ON,
+	ACT_PRIMARY_VM_MIXED_OFF,
+	ACT_SECONDARY_VM_MIXED_ON,
+	ACT_SECONDARY_VM_MIXED_OFF,
+	ACT_TERTIARY_VM_MIXED_ON,
+	ACT_TERTIARY_VM_MIXED_OFF,
+	ACT_FOURTH_VM_MIXED_ON,
+	ACT_FOURTH_VM_MIXED_OFF,
+
+	// MIXED state activities - Normal (ADS_NONE)
+	MIXED_ACT_VM_IDLE,
+	MIXED_ACT_VM_PRIMARYATTACK,
+	MIXED_ACT_VM_SECONDARYATTACK,
+	MIXED_ACT_VM_RELOAD,
+	MIXED_ACT_VM_MELEE,
+	MIXED_ACT_VM_DRYFIRE,
+	MIXED_ACT_VM_DRYFIRE_LEFT,
+	MIXED_ACT_VM_RELOAD_EMPTY,
+	MIXED_ACT_VM_RELOAD_LOOP,
+	MIXED_ACT_VM_RELOAD_END,
+
+	// MIXED state activities - ADS Level 1
+	MIXED_ACT_PRIMARY_VM_IDLE,
+	MIXED_ACT_PRIMARY_VM_PRIMARYATTACK,
+	MIXED_ACT_PRIMARY_VM_SECONDARYATTACK,
+	MIXED_ACT_PRIMARY_VM_RELOAD,
+	MIXED_ACT_PRIMARY_VM_MELEE,
+	MIXED_ACT_PRIMARY_VM_DRYFIRE,
+	MIXED_ACT_PRIMARY_VM_DRYFIRE_LEFT,
+	MIXED_ACT_PRIMARY_VM_RELOAD_EMPTY,
+	MIXED_ACT_PRIMARY_VM_RELOAD_LOOP,
+	MIXED_ACT_PRIMARY_VM_RELOAD_END,
+
+	// MIXED state activities - ADS Level 2
+	MIXED_ACT_SECONDARY_VM_IDLE,
+	MIXED_ACT_SECONDARY_VM_PRIMARYATTACK,
+	MIXED_ACT_SECONDARY_VM_SECONDARYATTACK,
+	MIXED_ACT_SECONDARY_VM_RELOAD,
+	MIXED_ACT_SECONDARY_VM_MELEE,
+	MIXED_ACT_SECONDARY_VM_DRYFIRE,
+	MIXED_ACT_SECONDARY_VM_DRYFIRE_LEFT,
+	MIXED_ACT_SECONDARY_VM_RELOAD_EMPTY,
+	MIXED_ACT_SECONDARY_VM_RELOAD_LOOP,
+	MIXED_ACT_SECONDARY_VM_RELOAD_END,
+
+	// MIXED state activities - ADS Level 3
+	MIXED_ACT_TERTIARY_VM_IDLE,
+	MIXED_ACT_TERTIARY_VM_PRIMARYATTACK,
+	MIXED_ACT_TERTIARY_VM_SECONDARYATTACK,
+	MIXED_ACT_TERTIARY_VM_RELOAD,
+	MIXED_ACT_TERTIARY_VM_MELEE,
+	MIXED_ACT_TERTIARY_VM_DRYFIRE,
+	MIXED_ACT_TERTIARY_VM_DRYFIRE_LEFT,
+	MIXED_ACT_TERTIARY_VM_RELOAD_EMPTY,
+	MIXED_ACT_TERTIARY_VM_RELOAD_LOOP,
+	MIXED_ACT_TERTIARY_VM_RELOAD_END,
+
+	// MIXED state activities - ADS Level 4
+	MIXED_ACT_FOURTH_VM_IDLE,
+	MIXED_ACT_FOURTH_VM_PRIMARYATTACK,
+	MIXED_ACT_FOURTH_VM_SECONDARYATTACK,
+	MIXED_ACT_FOURTH_VM_RELOAD,
+	MIXED_ACT_FOURTH_VM_MELEE,
+	MIXED_ACT_FOURTH_VM_DRYFIRE,
+	MIXED_ACT_FOURTH_VM_DRYFIRE_LEFT,
+	MIXED_ACT_FOURTH_VM_RELOAD_EMPTY,
+	MIXED_ACT_FOURTH_VM_RELOAD_LOOP,
+	MIXED_ACT_FOURTH_VM_RELOAD_END,
+
+	// MIXED ADS level transition activities
+	// IDLE_TO_NEXT: current state has MIXED but next state does NOT → exit MIXED during transition
+	// LOWERED_TO_NEXT: both current and next states have MIXED → keep MIXED during transition
+	MIXED_ACT_VM_IDLE_TO_NEXT,
+	MIXED_ACT_VM_LOWERED_TO_NEXT,
+	MIXED_ACT_PRIMARY_VM_IDLE_TO_NEXT,
+	MIXED_ACT_PRIMARY_VM_LOWERED_TO_NEXT,
+	MIXED_ACT_SECONDARY_VM_IDLE_TO_NEXT,
+	MIXED_ACT_SECONDARY_VM_LOWERED_TO_NEXT,
+	MIXED_ACT_TERTIARY_VM_IDLE_TO_NEXT,
+	MIXED_ACT_TERTIARY_VM_LOWERED_TO_NEXT,
+	MIXED_ACT_FOURTH_VM_IDLE_TO_NEXT,
+	MIXED_ACT_FOURTH_VM_LOWERED_TO_NEXT,
+
+	// MIXED forceback/exit-to-normal transition activities
+	// LOWERED_TO_IDLE: MIXED ADS → non-MIXED Normal (exit MIXED during forceback/exit)
+	// LOWERED_TO_MIXED_IDLE: MIXED ADS → MIXED Normal (keep MIXED during forceback/exit)
+	MIXED_ACT_VM_LOWERED_TO_IDLE,
+	MIXED_ACT_PRIMARY_VM_LOWERED_TO_IDLE,
+	MIXED_ACT_SECONDARY_VM_LOWERED_TO_IDLE,
+	MIXED_ACT_TERTIARY_VM_LOWERED_TO_IDLE,
+	MIXED_ACT_FOURTH_VM_LOWERED_TO_IDLE,
+	MIXED_ACT_VM_LOWERED_TO_MIXED_IDLE,
+	MIXED_ACT_PRIMARY_VM_LOWERED_TO_MIXED_IDLE,
+	MIXED_ACT_SECONDARY_VM_LOWERED_TO_MIXED_IDLE,
+	MIXED_ACT_TERTIARY_VM_LOWERED_TO_MIXED_IDLE,
+	MIXED_ACT_FOURTH_VM_LOWERED_TO_MIXED_IDLE,
+
+	// MIXED state INSPECT activities (per level)
+	MIXED_ACT_VM_INSPECT,
+	MIXED_ACT_PRIMARY_VM_INSPECT,
+	MIXED_ACT_SECONDARY_VM_INSPECT,
+	MIXED_ACT_TERTIARY_VM_INSPECT,
+	MIXED_ACT_FOURTH_VM_INSPECT,
+
+	// ADS back transition activities (necola_ads_back)
+	// From normal back to MIXED at ADS level (non-MIXED0)
+	ACT_PRIMARY_VM_IDLE_TO_MIXED_IDLE,
+	ACT_SECONDARY_VM_IDLE_TO_MIXED_IDLE,
+	ACT_TERTIARY_VM_IDLE_TO_MIXED_IDLE,
+	ACT_FOURTH_VM_IDLE_TO_MIXED_IDLE,
+	// From ADS level back to previous ADS level
+	ACT_PRIMARY_VM_IDLE_TO_PREV,
+	ACT_SECONDARY_VM_IDLE_TO_PREV,
+	ACT_TERTIARY_VM_IDLE_TO_PREV,
+	ACT_FOURTH_VM_IDLE_TO_PREV,
+	// From non-MIXED ADS level back to previous MIXED level
+	ACT_PRIMARY_VM_IDLE_TO_MIXED_PREV,
+	ACT_SECONDARY_VM_IDLE_TO_MIXED_PREV,
+	ACT_TERTIARY_VM_IDLE_TO_MIXED_PREV,
+	ACT_FOURTH_VM_IDLE_TO_MIXED_PREV,
+	// From MIXED level back to previous MIXED level (both non-MIXED0)
+	MIXED_ACT_PRIMARY_VM_IDLE_TO_MIXED_PREV,
+	MIXED_ACT_SECONDARY_VM_IDLE_TO_MIXED_PREV,
+	MIXED_ACT_TERTIARY_VM_IDLE_TO_MIXED_PREV,
+	MIXED_ACT_FOURTH_VM_IDLE_TO_MIXED_PREV,
+	// From MIXED level back to previous non-MIXED ADS level
+	MIXED_ACT_PRIMARY_VM_IDLE_TO_PREV,
+	MIXED_ACT_SECONDARY_VM_IDLE_TO_PREV,
+	MIXED_ACT_TERTIARY_VM_IDLE_TO_PREV,
+	MIXED_ACT_FOURTH_VM_IDLE_TO_PREV,
+	// From MIXED0 directly to higher MIXED level (skipping intermediate levels)
+	MIXED_ACT_SECONDARY_VM_IDLE_TO_LOWERED,  // MIXED0 → MIXED2 direct
+	MIXED_ACT_TERTIARY_VM_IDLE_TO_LOWERED,   // MIXED0 → MIXED3 direct
+	MIXED_ACT_FOURTH_VM_IDLE_TO_LOWERED,     // MIXED0 → MIXED4 direct
+
 };
 
 enum ClientFrameStage_t {
@@ -2723,66 +2991,660 @@ struct ShaderStencilState_t {
 	}
 };
 
-struct DrawModelState_t {
-	studiohdr_t* m_pStudioHdr;
-	void* m_pStudioHWData;
-	IClientRenderable* m_pRenderable;
-	const matrix3x4_t* m_pModelToWorld;
-	void* m_decals;
-	int	m_drawFlags;
-	int	m_lod;
-};
 
-struct ModelRenderInfo_t {
-	Vector origin;
-	Vector angles;
-	IClientRenderable* pRenderable;
-	const void* pModel;
-	const matrix3x4_t* pModelToWorld;
-	const matrix3x4_t* pLightingOffset;
-	const Vector* pLightingOrigin;
-	int flags;
-	int entity_index;
-	int skin;
-	int body;
-	int hitboxset;
-	unsigned short instance;
-
-	ModelRenderInfo_t()
-	{
-		pModelToWorld = NULL;
-		pLightingOffset = NULL;
-		pLightingOrigin = NULL;
-	}
-};
-
-struct StaticPropRenderInfo_t {
-	const matrix3x4_t* pModelToWorld;
-	const void* pModel;
-	IClientRenderable* pRenderable;
-	Vector* pLightingOrigin;
-	short skin;
-	unsigned short instance;
-};
-
-struct DrawModelInfo_t {
-	studiohdr_t* m_pStudioHdr;
-	void* m_pHardwareData;
-	void* m_Decals;
-	int				m_Skin;
-	int				m_Body;
-	int				m_HitboxSet;
-	void* m_pClientEntity;
-	int				m_Lod;
-	void* m_pColorMeshes;
-	bool			m_bStaticLighting;
-	Vector			m_vecAmbientCube[6];
-	int				m_nLocalLightCount;
-	LightDesc_t		m_LocalLightDescs[4];
-};
 
 struct ModelRenderSystemData_t {
 	IClientRenderable* m_pRenderable;
 	IClientModelRenderable* m_pModelRenderable;
 	RenderableInstance_t	m_InstanceData;
+};
+
+
+enum WeaponSound_t
+{
+	EMPTY,
+	SINGLE,
+	SINGLE_NPC,
+	WPN_DOUBLE, // Can't be "DOUBLE" because windows.h uses it.
+	DOUBLE_NPC,
+	BURST,
+	RELOAD,
+	RELOAD_NPC,
+	MELEE_MISS,
+	MELEE_HIT,
+	MELEE_HIT_WORLD,
+	SPECIAL1,
+	SPECIAL2,
+	SPECIAL3,
+	TAUNT,
+	DEPLOY,
+
+	// Add new shoot sound types here
+
+	NUM_SHOOT_SOUND_TYPES,
+};
+
+
+
+enum FSAsyncStatus_t
+{
+	FSASYNC_ERR_NOT_MINE     = -8,	// Filename not part of the specified file system, try a different one.  (Used internally to find the right filesystem)
+	FSASYNC_ERR_RETRY_LATER  = -7,	// Failure for a reason that might be temporary.  You might retry, but not immediately.  (E.g. Network problems)
+	FSASYNC_ERR_ALIGNMENT    = -6,	// read parameters invalid for unbuffered IO
+	FSASYNC_ERR_FAILURE      = -5,	// hard subsystem failure
+	FSASYNC_ERR_READING      = -4,	// read error on file
+	FSASYNC_ERR_NOMEMORY     = -3,	// out of memory for file read
+	FSASYNC_ERR_UNKNOWNID    = -2,	// caller's provided id is not recognized
+	FSASYNC_ERR_FILEOPEN     = -1,	// filename could not be opened (bad path, not exist, etc)
+	FSASYNC_OK               = 0,	// operation is successful
+	FSASYNC_STATUS_PENDING,			// file is properly queued, waiting for service
+	FSASYNC_STATUS_INPROGRESS,		// file is being accessed
+	FSASYNC_STATUS_ABORTED,			// file was aborted by caller
+	FSASYNC_STATUS_UNSERVICED,		// file is not yet queued
+};
+
+
+
+class FileWeaponInfo_t
+{
+private:
+	char pad_0x0000[0x4];
+
+public:
+	bool bParsedScript;
+	bool bLoadedHudElements;
+	char szClassName[80];
+	char szPrintName[80];
+	char szViewModel[80];
+	char szWorldModel[80]; // calls worldmodel but playermodel actually
+	char szAnimationPrefix[16];
+	int32_t iSlot;
+	int32_t iPosition;
+	int32_t iMaxClip1;
+	int32_t iMaxClip2;
+	int32_t iDefaultClip1;
+	int32_t iDefaultClip12;
+	int32_t iWeight;
+	int32_t iRumbleEffect;
+	bool bAutoSwitchTo;
+	bool bAutoSwitchFrom;
+	int32_t iFlags;
+	char szAmmo1[32];			
+	char szAmmo2[32];			
+	char szAIAddOn[80];		
+
+public:
+	inline const char* GetAddonModel(){
+		return reinterpret_cast<const char*>(reinterpret_cast<DWORD>(this) + 0x91D);
+	}
+
+	inline const char* GetViewModelDual(){
+		return reinterpret_cast<const char*>(reinterpret_cast<DWORD>(this) + 0xC78);
+	}
+
+	inline const char* GetPlayerModelDual(){
+		return reinterpret_cast<const char*>(reinterpret_cast<DWORD>(this) + 0xCC8);
+	}
+
+	inline const char* GetWorldModel() {
+		return reinterpret_cast<const char*>(reinterpret_cast<DWORD>(this) + 0xD80);
+	}
+
+
+};
+
+class CCSWeaponInfo : public FileWeaponInfo_t { // 866 bytes
+public:
+	float m_fMaxPlayerSpeed; // 2192
+	int m_iWeaponType;  // 2196
+	int m_iTeam; // 2200 // ANY = 0, TR = 2, CT = 3
+	float m_fBotAudiblerange; // 2204
+	float m_fWeaponArmorRatio; // 2208
+	int m_iCrosshairMinDistance; // 2212
+	int m_iCrosshariDeltaDistance; // 2216
+	bool m_bCanEquipWithShield; // 2220
+	char m_aWrongTeamMsg[32]; // 2221
+	char m_aPlayerAnimationExtension[16]; // 2253
+	char m_aShieldViewModel[64]; // 2269
+	char m_aAddonModel[80]; // 2333
+	char m_aAddonAttachment[80]; // 2413
+	int m_iMuzzleFlashStyle; // 2496 (not confirmed)
+	float m_fMuzzleFlashScale; // 2500
+	int m_iPenetration; // 2504
+	int m_iDamage; // 2508
+	float m_fRange; // 2512
+	float m_fRangeModifier; // 2516
+	int m_iBullets; // 2520
+	float m_fCycleTime; // 2524
+	int m_iAccuracyQuadratic; // 2528
+	float m_fAccuracyDivisor; // 2532
+	float m_fAccuracyOffset; // 2536
+	float m_fMaxInaccuracy; // 2540
+	float m_fTimeToIdle; // 2544
+	float m_fIdleInterval; // 2548
+	float m_fNoiseFactor; // 2552
+	int m_iBlackMarketPrice; // 2556
+	int m_iBlackMarketPrice2; // 2560
+	int m_iBlackMarketPreviousPrice; // 2564 (not confirmed)
+	char m_aResponseRulesName[80]; // 2568
+	char m_aMuzzleFlashEffect_1stPerson[80]; // 2648
+	char m_aMuzzleFlashEffect_3rdPerson[80]; // 2728
+	char m_aEjectBrassEffect[80]; // 2808
+	char m_aDisplayName[80]; // 2888
+	char m_aDisplayNameAllCaps[80]; // 2968
+	int m_iTier; // 3048
+	float m_fMusicDynamicSpeed; // 3052
+	bool m_bNewInL4D2; // 3056
+	bool m_bCSWeapon; // 3057
+};  
+
+class CTerrorWeaponInfo : public CCSWeaponInfo { 
+public:
+	int m_iLoadoutSlots; // 3060
+	float m_fMaxAutoAimDeflection1; // 3064
+	float m_fMaxAutoAimRange1; // 3068
+	float m_fWeaponAutoAimScale; // 3072
+	float m_fVerticalPunch; // 3076
+	float m_fHorizontalPunch; // 3080
+	float m_fHorizontalPunchDirChance; // 3084
+	float m_fSpreadPerShot; // 3088
+	float m_fMaxSpread; // 3092
+	float m_fSpreadDecay; // 3096
+	float m_fMinDuckingSpread; // 3100
+	float m_fMinStandingSpread; // 3104
+	float m_fMinInAirSpread; // 3108
+	float m_fMaxMovementSpread; // 3112
+	float m_fPelletScatterPitch; // 3116
+	float m_fPelletScatterYaw; // 3120
+	float m_fUnknown; // 3124
+	float m_fReloadDuration; // 3128
+	float m_fDualReloadDuration; // 3132
+	float m_fDeployDuration; // 3136
+	float m_fDualDeployDuration; // 3140
+	float m_fPenetrationNumLayers; // 3144
+	float m_fPenetrationPower; // 3148
+	float m_fPenetrationMaxDistance; // 3152
+	float m_fCharacterPenetrationMaxDistance; // 3156
+	float m_fGainRange; // 3160
+	//CUtlDict<const char*, unsigned short> m_tCharacterViewmodelAddon; // 3164
+	char m_aViewModelDual[80]; // 3192
+	char m_aPlayerModelDual[80]; // 3272
+	char m_aAddonAttachment2[80]; // 3352 Why is this duplicated from 2413
+	Vector m_vAddonOffest; // 3432 vector
+	Vector m_vAddonAngles; // 3444 vector
+	char m_aWorldModel[80]; // 3456
+}; 
+
+class CMeleeWeaponInfo_t { // 3232 bytes
+public:
+	void * pVtable;					//0
+	float m_fRefireDelay;			//4
+	char m_aViewModel[80];			//8
+	char m_aPlayerModel[80];		//88
+	char m_aAddonAttachment[80];	//168
+	Vector m_vAddonOffest;		//248
+	Vector m_vAddonAngles;		//260
+	char m_aAnimPrefix[16];		//272
+	float m_fDamage;			//288
+	int m_iDamageFlags;			//292
+	int m_iRumbleEffect;		//296
+	bool m_bDecapitates;		//300
+	char m_aActivityIdle[80];		//301
+	char m_aActivityWalk[80];		//381
+	char m_aActivityRun[80];		//461
+	char m_aActivityCrouchIdle[80];		//541
+	char m_aActivityCrouchWalk[80];		//621
+	char m_aActivityCrouchWalk2[80]; 	//701	// possibly run + walk animations
+	char m_aActivityIdleInjured[80];	//781
+	char m_aActivityWalkInjured[80];	//861
+	char m_aActivityRunInjured[80];	//941
+	char m_aActivityIdleCalm[80];	//1021
+	char m_aActivityWalkCalm[80];	//1101
+	char m_aActivityRunCalm[80];	//1181
+	char m_aActivityJump[80];	//1261
+	char m_aActivityDeploy[80];	//1341
+	char m_aActivityShove[80];	//1421
+	char SoundData[20][80]; // 1501
+							// 3101: 3 bytes should be padding 
+	char PrimaryAttacks[20]; //3104
+	char SecondaryAttacks[20]; //3124
+	int m_iPlayerAnimEvent; // 3144
+	float m_fWeaponIdleTime; // 3148
+	char src[80]; // 3152 name of the melee weapon
+
+
+};
+
+class CMeleeWeaponInfoStore
+{
+public:
+	char pad_0000[3236]; //0x0000
+	
+	char meleeWeaponName[256]; //0x0CA4
+	char pad_0DA4[920]; //0x0DA4
+};
+
+class CEffectData
+{
+public:
+	Vector m_vOrigin; 				//0
+	Vector m_vStart;				//12
+	Vector m_vNormal;				//24
+	char 	m_vAngles[12];			//36
+	int		m_fFlags;				//48
+	void* 	m_hEntity;				//52
+	float	m_flScale;				//56
+	float	m_flMagnitude;			//60
+	float	m_flRadius;				//64
+	int		m_nAttachmentIndex;		//68
+	short	m_nSurfaceProp;			//72
+	char 	pad_4A[2];				//74
+	int		m_nMaterial;			//76
+	int		m_nDamageType;			//80
+	int		m_nHitBox;				//84
+	
+	unsigned char	m_nColor;		//88
+	char 	pad_59[3];				//89
+	int 	m_iEffectName;				//92
+};
+
+class CAddonInfo
+{
+public:
+	const char *m_pAttachmentName;
+	const char *m_pWeaponClassName;	// The addon uses the w_ model from this weapon.
+	const char *m_pModelName;		//If this is present, will use this model instead of looking up the weapon
+	const char *m_pHolsterName;
+};
+
+
+enum SoundLevel_t
+{
+	SNDLVL_NONE			= 0,
+
+	SNDLVL_20dB			= 20,			// rustling leaves
+	SNDLVL_25dB			= 25,			// whispering
+	SNDLVL_30dB			= 30,			// library
+	SNDLVL_35dB			= 35,
+	SNDLVL_40dB			= 40,
+	SNDLVL_45dB			= 45,			// refrigerator
+
+	SNDLVL_50dB			= 50,	// 3.9	// average home
+	SNDLVL_55dB			= 55,	// 3.0
+
+	SNDLVL_IDLE			= 60,	// 2.0	
+	SNDLVL_60dB			= 60,	// 2.0	// normal conversation, clothes dryer
+
+	SNDLVL_65dB			= 65,	// 1.5	// washing machine, dishwasher
+	SNDLVL_STATIC		= 66,	// 1.25
+
+	SNDLVL_70dB			= 70,	// 1.0	// car, vacuum cleaner, mixer, electric sewing machine
+
+	SNDLVL_NORM			= 75,
+	SNDLVL_75dB			= 75,	// 0.8	// busy traffic
+
+	SNDLVL_80dB			= 80,	// 0.7	// mini-bike, alarm clock, noisy restaurant, office tabulator, outboard motor, passing snowmobile
+	SNDLVL_TALKING		= 80,	// 0.7
+	SNDLVL_85dB			= 85,	// 0.6	// average factory, electric shaver
+	SNDLVL_90dB			= 90,	// 0.5	// screaming child, passing motorcycle, convertible ride on frw
+	SNDLVL_95dB			= 95,
+	SNDLVL_100dB		= 100,	// 0.4	// subway train, diesel truck, woodworking shop, pneumatic drill, boiler shop, jackhammer
+	SNDLVL_105dB		= 105,			// helicopter, power mower
+	SNDLVL_110dB		= 110,			// snowmobile drvrs seat, inboard motorboat, sandblasting
+	SNDLVL_120dB		= 120,			// auto horn, propeller aircraft
+	SNDLVL_130dB		= 130,			// air raid siren
+
+	SNDLVL_GUNFIRE		= 140,	// 0.27	// THRESHOLD OF PAIN, gunshot, jet engine
+	SNDLVL_140dB		= 140,	// 0.2
+
+	SNDLVL_150dB		= 150,	// 0.2
+
+	SNDLVL_180dB		= 180,			// rocket launching
+
+};
+
+
+enum ParticleAttachment_t
+{
+	PATTACH_ABSORIGIN = 0,			// Create at absorigin, but don't follow
+	PATTACH_ABSORIGIN_FOLLOW,		// Create at absorigin, and update to follow the entity
+	PATTACH_CUSTOMORIGIN,			// Create at a custom origin, but don't follow
+	PATTACH_CUSTOMORIGIN_FOLLOW,	// Create at a custom origin, follow relative position to specified entity
+	PATTACH_POINT,					// Create on attachment point, but don't follow
+	PATTACH_POINT_FOLLOW,			// Create on attachment point, and update to follow the entity
+	PATTACH_EYES_FOLLOW,			// Create on eyes of the attached entity, and update to follow the entity
+
+	PATTACH_WORLDORIGIN,			// Used for control points that don't attach to an entity
+
+	MAX_PATTACH_TYPES,
+};
+
+struct characterset_t
+{
+	char set[256];
+};
+
+class CCommand
+{
+public:
+	CCommand();
+	CCommand( int nArgC, const char **ppArgV );
+	bool Tokenize( const char *pCommand, characterset_t *pBreakSet = NULL );
+	void Reset();
+
+	int ArgC() const;
+	const char **ArgV() const;
+	const char *ArgS() const;					// All args that occur after the 0th arg, in string form
+	const char *GetCommandString() const;		// The entire command in string form, including the 0th arg
+	const char *operator[]( int nIndex ) const;	// Gets at arguments
+	const char *Arg( int nIndex ) const;		// Gets at arguments
+	
+	// Helper functions to parse arguments to commands.
+	const char* FindArg( const char *pName ) const;
+	int FindArgInt( const char *pName, int nDefaultVal ) const;
+
+	static int MaxCommandLength();
+	static characterset_t* DefaultBreakSet();
+
+private:
+	enum
+	{
+		COMMAND_MAX_ARGC = 64,
+		COMMAND_MAX_LENGTH = 512,
+	};
+
+	int		m_nArgc;
+	int		m_nArgv0Size;
+	char	m_pArgSBuffer[ COMMAND_MAX_LENGTH ];
+	char	m_pArgvBuffer[ COMMAND_MAX_LENGTH ];
+	const char*	m_ppArgv[ COMMAND_MAX_ARGC ];
+};
+
+
+
+enum JoystickAxis_t
+{
+	JOY_AXIS_X = 0,
+	JOY_AXIS_Y,
+	JOY_AXIS_Z,
+	JOY_AXIS_R,
+	JOY_AXIS_U,
+	JOY_AXIS_V,
+	MAX_JOYSTICK_AXES,
+};
+
+enum
+{
+	JOYSTICK_MAX_BUTTON_COUNT = 32,
+	JOYSTICK_POV_BUTTON_COUNT = 4,
+	JOYSTICK_AXIS_BUTTON_COUNT = MAX_JOYSTICK_AXES * 2,
+};
+
+enum
+{
+	MAX_JOYSTICKS = 1,
+	MOUSE_BUTTON_COUNT = 5,
+	MAX_NOVINT_DEVICES = 2,
+};
+
+#define JOYSTICK_BUTTON_INTERNAL( _joystick, _button ) ( JOYSTICK_FIRST_BUTTON + ((_joystick) * JOYSTICK_MAX_BUTTON_COUNT) + (_button) )
+#define JOYSTICK_POV_BUTTON_INTERNAL( _joystick, _button ) ( JOYSTICK_FIRST_POV_BUTTON + ((_joystick) * JOYSTICK_POV_BUTTON_COUNT) + (_button) )
+#define JOYSTICK_AXIS_BUTTON_INTERNAL( _joystick, _button ) ( JOYSTICK_FIRST_AXIS_BUTTON + ((_joystick) * JOYSTICK_AXIS_BUTTON_COUNT) + (_button) )
+
+#define JOYSTICK_BUTTON( _joystick, _button ) ( (ButtonCode_t)JOYSTICK_BUTTON_INTERNAL( _joystick, _button ) )
+#define JOYSTICK_POV_BUTTON( _joystick, _button ) ( (ButtonCode_t)JOYSTICK_POV_BUTTON_INTERNAL( _joystick, _button ) )
+#define JOYSTICK_AXIS_BUTTON( _joystick, _button ) ( (ButtonCode_t)JOYSTICK_AXIS_BUTTON_INTERNAL( _joystick, _button ) )
+
+enum ButtonCode_t
+{
+	BUTTON_CODE_INVALID = -1,
+	BUTTON_CODE_NONE = 0,
+
+	KEY_FIRST = 0,
+
+	KEY_NONE = KEY_FIRST,
+	KEY_0,
+	KEY_1,
+	KEY_2,
+	KEY_3,
+	KEY_4,
+	KEY_5,
+	KEY_6,
+	KEY_7,
+	KEY_8,
+	KEY_9,
+	KEY_A,
+	KEY_B,
+	KEY_C,
+	KEY_D,
+	KEY_E,
+	KEY_F,
+	KEY_G,
+	KEY_H,
+	KEY_I,
+	KEY_J,
+	KEY_K,
+	KEY_L,
+	KEY_M,
+	KEY_N,
+	KEY_O,
+	KEY_P,
+	KEY_Q,
+	KEY_R,
+	KEY_S,
+	KEY_T,
+	KEY_U,
+	KEY_V,
+	KEY_W,
+	KEY_X,
+	KEY_Y,
+	KEY_Z,
+	KEY_PAD_0,
+	KEY_PAD_1,
+	KEY_PAD_2,
+	KEY_PAD_3,
+	KEY_PAD_4,
+	KEY_PAD_5,
+	KEY_PAD_6,
+	KEY_PAD_7,
+	KEY_PAD_8,
+	KEY_PAD_9,
+	KEY_PAD_DIVIDE,
+	KEY_PAD_MULTIPLY,
+	KEY_PAD_MINUS,
+	KEY_PAD_PLUS,
+	KEY_PAD_ENTER,
+	KEY_PAD_DECIMAL,
+	KEY_LBRACKET,
+	KEY_RBRACKET,
+	KEY_SEMICOLON,
+	KEY_APOSTROPHE,
+	KEY_BACKQUOTE,
+	KEY_COMMA,
+	KEY_PERIOD,
+	KEY_SLASH,
+	KEY_BACKSLASH,
+	KEY_MINUS,
+	KEY_EQUAL,
+	KEY_ENTER,
+	KEY_SPACE,
+	KEY_BACKSPACE,
+	KEY_TAB,
+	KEY_CAPSLOCK,
+	KEY_NUMLOCK,
+	KEY_ESCAPE,
+	KEY_SCROLLLOCK,
+	KEY_INSERT,
+	KEY_DELETE,
+	KEY_HOME,
+	KEY_END,
+	KEY_PAGEUP,
+	KEY_PAGEDOWN,
+	KEY_BREAK,
+	KEY_LSHIFT,
+	KEY_RSHIFT,
+	KEY_LALT,
+	KEY_RALT,
+	KEY_LCONTROL,
+	KEY_RCONTROL,
+	KEY_LWIN,
+	KEY_RWIN,
+	KEY_APP,
+	KEY_UP,
+	KEY_LEFT,
+	KEY_DOWN,
+	KEY_RIGHT,
+	KEY_F1,
+	KEY_F2,
+	KEY_F3,
+	KEY_F4,
+	KEY_F5,
+	KEY_F6,
+	KEY_F7,
+	KEY_F8,
+	KEY_F9,
+	KEY_F10,
+	KEY_F11,
+	KEY_F12,
+	KEY_CAPSLOCKTOGGLE,
+	KEY_NUMLOCKTOGGLE,
+	KEY_SCROLLLOCKTOGGLE,
+
+	KEY_LAST = KEY_SCROLLLOCKTOGGLE,
+	KEY_COUNT = KEY_LAST - KEY_FIRST + 1,
+
+	// Mouse
+	MOUSE_FIRST = KEY_LAST + 1,
+
+	MOUSE_LEFT = MOUSE_FIRST,
+	MOUSE_RIGHT,
+	MOUSE_MIDDLE,
+	MOUSE_4,
+	MOUSE_5,
+	MOUSE_WHEEL_UP,		// A fake button which is 'pressed' and 'released' when the wheel is moved up 
+	MOUSE_WHEEL_DOWN,	// A fake button which is 'pressed' and 'released' when the wheel is moved down
+
+	MOUSE_LAST = MOUSE_WHEEL_DOWN,
+	MOUSE_COUNT = MOUSE_LAST - MOUSE_FIRST + 1,
+
+	// Joystick
+	JOYSTICK_FIRST = MOUSE_LAST + 1,
+
+	JOYSTICK_FIRST_BUTTON = JOYSTICK_FIRST,
+	JOYSTICK_LAST_BUTTON = JOYSTICK_BUTTON_INTERNAL(MAX_JOYSTICKS - 1, JOYSTICK_MAX_BUTTON_COUNT - 1),
+	JOYSTICK_FIRST_POV_BUTTON,
+	JOYSTICK_LAST_POV_BUTTON = JOYSTICK_POV_BUTTON_INTERNAL(MAX_JOYSTICKS - 1, JOYSTICK_POV_BUTTON_COUNT - 1),
+	JOYSTICK_FIRST_AXIS_BUTTON,
+	JOYSTICK_LAST_AXIS_BUTTON = JOYSTICK_AXIS_BUTTON_INTERNAL(MAX_JOYSTICKS - 1, JOYSTICK_AXIS_BUTTON_COUNT - 1),
+
+	JOYSTICK_LAST = JOYSTICK_LAST_AXIS_BUTTON,
+
+	BUTTON_CODE_LAST,
+	BUTTON_CODE_COUNT = BUTTON_CODE_LAST - KEY_FIRST + 1,
+
+	// Helpers for XBox 360
+	KEY_XBUTTON_UP = JOYSTICK_FIRST_POV_BUTTON,	// POV buttons
+	KEY_XBUTTON_RIGHT,
+	KEY_XBUTTON_DOWN,
+	KEY_XBUTTON_LEFT,
+
+	KEY_XBUTTON_A = JOYSTICK_FIRST_BUTTON,		// Buttons
+	KEY_XBUTTON_B,
+	KEY_XBUTTON_X,
+	KEY_XBUTTON_Y,
+	KEY_XBUTTON_LEFT_SHOULDER,
+	KEY_XBUTTON_RIGHT_SHOULDER,
+	KEY_XBUTTON_BACK,
+	KEY_XBUTTON_START,
+	KEY_XBUTTON_STICK1,
+	KEY_XBUTTON_STICK2,
+
+	KEY_XSTICK1_RIGHT = JOYSTICK_FIRST_AXIS_BUTTON,	// XAXIS POSITIVE
+	KEY_XSTICK1_LEFT,							// XAXIS NEGATIVE
+	KEY_XSTICK1_DOWN,							// YAXIS POSITIVE
+	KEY_XSTICK1_UP,								// YAXIS NEGATIVE
+	KEY_XBUTTON_LTRIGGER,						// ZAXIS POSITIVE
+	KEY_XBUTTON_RTRIGGER,						// ZAXIS NEGATIVE
+	KEY_XSTICK2_RIGHT,							// UAXIS POSITIVE
+	KEY_XSTICK2_LEFT,							// UAXIS NEGATIVE
+	KEY_XSTICK2_DOWN,							// VAXIS POSITIVE
+	KEY_XSTICK2_UP,								// VAXIS NEGATIVE
+};
+
+enum MouseCodeState_t
+{
+	BUTTON_RELEASED = 0,
+	BUTTON_PRESSED,
+	BUTTON_DOUBLECLICKED,
+};
+
+enum InputEventType_t
+{
+	IE_ButtonPressed = 0,	// m_nData contains a ButtonCode_t
+	IE_ButtonReleased,		// m_nData contains a ButtonCode_t
+	IE_ButtonDoubleClicked,	// m_nData contains a ButtonCode_t
+	IE_AnalogValueChanged,	// m_nData contains an AnalogCode_t, m_nData2 contains the value
+
+	IE_FirstSystemEvent = 100,
+	IE_Quit = IE_FirstSystemEvent,
+	IE_ControllerInserted,	// m_nData contains the controller ID
+	IE_ControllerUnplugged,	// m_nData contains the controller ID
+
+	IE_FirstVguiEvent = 1000,	// Assign ranges for other systems that post user events here
+	IE_FirstAppEvent = 2000,
+};
+
+
+struct CameraThirdData_t
+{
+	float	m_flPitch;
+	float	m_flYaw;
+	float	m_flDist;
+	float	m_flLag;
+	Vector	m_vecHullMin;
+	Vector	m_vecHullMax;
+};
+
+struct kbutton_t
+{
+	// key nums holding it down
+	int		down[2];
+	// low bit is down state
+	int		state;
+};
+
+enum SeekType_t
+{
+	SEEK_HEAD = 0,
+	SEEK_CURRENT,
+	SEEK_TAIL
+};
+
+// flags
+enum BufferFlags_t
+{
+	TEXT_BUFFER = 0x1,			// Describes how get + put work (as strings, or binary)
+	EXTERNAL_GROWABLE = 0x2,	// This is used w/ external buffers and causes the utlbuf to switch to reallocatable memory if an overflow happens when Putting.
+	CONTAINS_CRLF = 0x4,		// For text buffers only, does this contain \n or \n\r?
+	READ_ONLY = 0x8,			// For external buffers; prevents null termination from happening.
+	AUTO_TABS_DISABLED = 0x10,	// Used to disable/enable push/pop tabs
+};
+
+
+struct FireBulletsInfo_t
+{
+	int m_iShots;
+	Vector m_vecSrc;
+	Vector m_vecDirShooting;
+	Vector m_vecSpread;
+	float m_flDistance;
+	int m_iAmmoType;
+	int m_iTracerFreq;
+	float m_flDamage;
+	float m_flPlayerDamage;	// Damage to be used instead of m_flDamage if we hit a player
+	int m_nFlags;			// See FireBulletsFlags_t
+	float m_flDamageForceScale;
+	void* m_pAttacker; // actually C_BaseEntity*
+	void* m_pAdditionalIgnoreEnt; // actually C_BaseEntity*
+	bool m_bPrimaryAttack;
 };

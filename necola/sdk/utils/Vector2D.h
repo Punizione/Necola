@@ -138,7 +138,7 @@ public:
 		return ::sqrtf(x * x + y * y);
 	}
 
-	float LenghtSqr(void) const
+	float LengthSqr(void) const
 	{
 		return (x * x + y * y);
 	}
@@ -150,7 +150,7 @@ public:
 
 	float DistToSqr(const Vector2D& v) const
 	{
-		return (*this - v).LenghtSqr();
+		return (*this - v).LengthSqr();
 	}
 
 	float Dot(const Vector2D& v) const

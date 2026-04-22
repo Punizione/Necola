@@ -1,47 +1,12 @@
 #pragma once
 
 #include "GameMovement.h"
+#include "../entities/Studio.h"
 
-class MDLHandle_t;
+typedef unsigned char byte;
+
 struct vcollide_t;
 struct virtualmodel_t;
-
-typedef void model_t;
-
-struct mstudiobbox {
-	int         bone;
-	int         group;
-	Vector		bbmin;
-	Vector		bbmax;
-	int         szhitboxnameindex;
-	int         _pad00[8];
-
-	const char* pszHitboxName()
-	{
-		if (szhitboxnameindex == 0)
-			return "";
-
-		return ((const char*)this) + szhitboxnameindex;
-	}
-};
-
-struct mstudiohitboxset {
-	int                   sznameindex;
-	inline char* const    pszName(void) const { return ((char*)this) + sznameindex; }
-	int                   numhitboxes;
-	int                   hitboxindex;
-	inline mstudiobbox*	  pHitbox(int i) const { return (mstudiobbox*)(((unsigned char*)this) + hitboxindex) + i; };
-};
-
-struct studiohdr_t {
-	unsigned char     _pad00[0xAC];
-	int               numhitboxsets;
-	int               hitboxsetindex;
-
-	inline mstudiohitboxset* pHitboxSet(const int n) const {
-		return (mstudiohitboxset*)(((unsigned char*)this) + hitboxsetindex) + n;
-	};
-};
 
 class IVModelInfo
 {
@@ -77,7 +42,7 @@ public:
 	virtual const studiohdr_t*		FindModel(const studiohdr_t* pStudioHdr, void** cache, const char* modelname) const = 0;
 	virtual const studiohdr_t*		FindModel(void* cache) const = 0;
 	virtual	virtualmodel_t*			GetVirtualModel(const studiohdr_t* pStudioHdr) const = 0;
-	virtual BYTE*					GetAnimBlock(const studiohdr_t* pStudioHdr, int iBlock) const = 0;
+	virtual byte*					GetAnimBlock(const studiohdr_t* pStudioHdr, int iBlock) const = 0;
 	virtual void					GetModelMaterialColorAndLighting(const model_t* model, Vector const& origin, Vector const& angles, trace_t* pTrace, Vector& lighting, Vector& matColor) = 0;
 	virtual void					GetIlluminationPoint(const model_t* model, IClientRenderable* pRenderable, Vector const& origin, Vector const& angles, Vector* pLightingCenter) = 0;
 	virtual int						GetModelContents(int modelIndex) const = 0;
@@ -99,6 +64,20 @@ public:
 	virtual int						GetSurfacepropsForVirtualTerrain(int index) = 0;
 	virtual bool					UsesEnvCubemap(const model_t* model) const = 0;
 	virtual bool					UsesStaticLighting(const model_t* model) const = 0;
+};
+
+
+class IVModelInfoClient : public IVModelInfo
+{
+public:
+	
+};
+
+
+struct virtualterrainparams_t
+{
+	// UNDONE: Add grouping here, specified in BSP file? (test grouping to see if this is necessary)
+	int index;
 };
 
 namespace I { inline IVModelInfo* ModelInfo = nullptr; }

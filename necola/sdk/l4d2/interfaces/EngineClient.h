@@ -1,6 +1,7 @@
 #pragma once
 
 #include "DebugOverlay.h"
+#include "IMDLCache.h"
 
 #ifdef CopyFile
 #undef CopyFile
@@ -218,6 +219,7 @@ public:
 	virtual CSteamAPIContext*		GetSteamAPIContext() = 0;
 	virtual void					SubmitStatRecord(char const* szMapName, unsigned __int32 uiBlobVersion, unsigned __int32 uiBlobSize, const void* pvBlob) = 0;
 	virtual void					ServerCmdKeyValues(void* pKeyValues) = 0;
+
 };
 
 namespace I { inline IVEngineClient* EngineClient = nullptr; }

@@ -2,6 +2,8 @@
 
 #include "./l4d2/interfaces/BaseClientDll.h"
 
+#include <iostream>
+
 inline int GetOffsetInternal(RecvTable* pTable, const char* const szVar)
 {
 	for (int n = 0; n < pTable->GetNumProps(); n++)

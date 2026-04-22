@@ -4,7 +4,7 @@
 
 typedef unsigned short ClientShadowHandle_t;
 typedef unsigned short ClientRenderHandle_t;
-typedef void model_t;
+//typedef void model_t;
 
 enum {
 	INVALID_CLIENT_RENDER_HANDLE = (ClientRenderHandle_t)0xffff,

@@ -39,7 +39,7 @@ void Logging() {
 
     // spdlog initialisation
     try {
-        auto logger = spdlog::basic_logger_mt(sFixName, sLogFile, true);
+        auto logger = spdlog::basic_logger_mt(sFixName, sLogFile, false);
         spdlog::set_default_logger(logger);
 
         auto start_time = std::chrono::system_clock::now();
@@ -61,10 +61,10 @@ void Logging() {
 
 
 DWORD __stdcall Hook_necola(LPVOID lpParam)
-{
+{    
+
     HANDLE hProcess = OpenProcess(SYNCHRONIZE, FALSE, GetCurrentProcessId());
     if (!hProcess) return 1;
-
     LoadIni();
     Logging();
     std::wstring cmdline = cfg::System::cmdLine;
@@ -72,6 +72,7 @@ DWORD __stdcall Hook_necola(LPVOID lpParam)
     {
         std::wstring cmdline = GetCommandLineW();
     }
+
     spdlog::info(L"Startup commandline: {}", cmdline.c_str());
     // InitConsole();
     spdlog::info("Necola Start!");
@@ -89,24 +90,25 @@ void Undo_necola()
 
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved) {
+    
     if (DetourIsHelperProcess()) {
         return TRUE;
-    }
-
+    } 
     switch (ul_reason_for_call) {
-    case DLL_PROCESS_ATTACH: {
-        DisableThreadLibraryCalls(hModule);
-        if (auto h = CreateThread(NULL, 0, Hook_necola, NULL, 0, NULL)) {
-            CloseHandle(h);
+        
+        case DLL_PROCESS_ATTACH: {
+            DisableThreadLibraryCalls(hModule);
+            if (auto h = CreateThread(NULL, 0, Hook_necola, hModule, 0, NULL)) {
+               CloseHandle(h);
+            }
+                
+            break;
         }
-            
-        break;
+        case DLL_PROCESS_DETACH: {
+            Undo_necola();
+            break;
+        }
     }
-    //case DLL_PROCESS_DETACH: {
-    //    Undo_necola();
-    //    break;
-    //}
-}
     return TRUE;
 }
 

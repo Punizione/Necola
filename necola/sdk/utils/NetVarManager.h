@@ -2,6 +2,7 @@
 
 #include "Interface.h"
 
+
 class CUtil_NetVarManager
 {
 public:

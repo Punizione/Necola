@@ -13,7 +13,7 @@
 // Version
 std::string sFixName = "L4D2-Necola";
 std::string sLogFile = sFixName + ".log";
-std::string sFixVer = "1.2beta";
+std::string sFixVer = "1.3.1_preview7";
 
 // Logger
 std::shared_ptr<spdlog::logger> logger;

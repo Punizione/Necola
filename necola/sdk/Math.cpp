@@ -139,7 +139,7 @@ float CUtil_Math::GetFovBetween(const Vector vSrc, const Vector vDst)
 	Vector v_dst = { };
 	AngleVectors(vDst, &v_dst);
 
-	float result = RAD2DEG(acos(v_dst.Dot(v_src) / v_dst.LenghtSqr()));
+	float result = RAD2DEG(acos(v_dst.Dot(v_src) / v_dst.LengthSqr()));
 
 	if (!isfinite(result) || isinf(result) || isnan(result))
 		result = FLT_MAX;
@@ -161,4 +161,11 @@ Vector CUtil_Math::GetAngleToPosition(const Vector vFrom, const Vector vTo)
 	const float flHyp = ::sqrtf((vDelta.x * vDelta.x) + (vDelta.y * vDelta.y));
 
 	return { (::atanf(vDelta.z / flHyp) * M_RADPI), (::atanf(vDelta.y / vDelta.x) * M_RADPI) + (180.0f * (vDelta.x >= 0.0f)), 0.0f };
+}
+
+float CUtil_Math::GetVectorDistance(const Vector vSrc, const Vector vDst)
+{
+	// if (squared)
+	// 	return (vSrc - vDst).Lenght();
+	return (vSrc - vDst).LengthSqr();
 }

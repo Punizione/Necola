@@ -1,6 +1,9 @@
 #pragma once
 
 #include "C_BaseEntity.h"
+#include <random>
+#include <vector>
+#include <cstring>
 
 class CChoreoScene;
 class CChoreoEvent;
@@ -89,6 +92,7 @@ public:
 	M_NETVAR(m_flFrozen, float, "CBaseAnimating", "m_flFrozen");
 
 public:
+	
 	inline bool GetHitboxPositionByGroup(const int nGroup, Vector& vPos)
 	{
 		const model_t* pModel = this->GetModel();
@@ -96,12 +100,12 @@ public:
 		if (!pModel)
 			return false;
 
-		const studiohdr_t* pHdr = I::ModelInfo->GetStudiomodel(pModel);
+		studiohdr_t* pHdr = I::ModelInfo->GetStudiomodel(pModel);
 
 		if (!pHdr)
 			return false;
 
-		const mstudiohitboxset* pSet = pHdr->pHitboxSet(this->m_nHitboxSet());
+		mstudiohitboxset_t* pSet = pHdr->GetHitboxSet(this->m_nHitboxSet());
 
 		if (!pSet)
 			return false;
@@ -110,12 +114,12 @@ public:
 		if (!this->SetupBones(Matrix, NUM_STUDIOBONES, 0x100, I::GlobalVars->curtime))
 			return false;
 
-		mstudiobbox* pFinalBox = nullptr;
+		mstudiobbox_t* pFinalBox = nullptr;
 
 		//Gets head properly, possibly fails for other groups due to obvious reasons.
 		for (int n = 0; n < pSet->numhitboxes; n++)
 		{
-			mstudiobbox* pBox = pSet->pHitbox(n);
+			mstudiobbox_t* pBox = pSet->GetHitbox(n);
 
 			if (!pBox || (pBox->group != nGroup) || (pBox->bone < 0) || (pBox->bone >= NUM_STUDIOBONES))
 				continue;
@@ -129,6 +133,162 @@ public:
 		U::Math.VectorTransform((pFinalBox->bbmin + pFinalBox->bbmax) * 0.5f, Matrix[pFinalBox->bone], vPos);
 		return true;
 	}
+	
+	inline int SelectWeightedSequenceOffset(int activity) {
+		return reinterpret_cast<int(__thiscall*)(void*, int)>(U::Offsets.m_dwSelectWeightedSequence)(this, activity);
+	}
+
+	// Implements the Source SDK 2013 SelectWeightedSequence algorithm with proper
+	// randomization. The engine's built-in version may return deterministic results
+	// when called consecutively with the same parameters (due to SharedRandomInt
+	// in prediction context or internal caching).
+	inline int SelectRandomSequence(int activity) {
+		const model_t* pModel = this->GetModel();
+		if (!pModel)
+			return SelectWeightedSequenceOffset(activity);
+
+		const studiohdr_t* pHdr = I::ModelInfo->GetStudiomodel(pModel);
+		if (!pHdr || pHdr->numlocalseq <= 0)
+			return SelectWeightedSequenceOffset(activity);
+
+		std::vector<int> matchingSequences;
+		for (int i = 0; i < pHdr->numlocalseq; i++) {
+			if (GetSequenceActivityOffset(i) == activity) {
+				matchingSequences.push_back(i);
+			}
+		}
+
+		if (matchingSequences.empty())
+			return -1;
+
+		if (matchingSequences.size() == 1)
+			return matchingSequences[0];
+
+		static std::mt19937 gen(std::random_device{}());
+		std::uniform_int_distribution<int> dist(0, static_cast<int>(matchingSequences.size()) - 1);
+		return matchingSequences[dist(gen)];
+	}
+
+	inline int GetSequenceActivityOffset(int sequence) {
+		return reinterpret_cast<int(__thiscall*)(void*, int)>(U::Offsets.m_dwGetSequenceActivity)(this, sequence);
+	}
+
+	// C_BaseAnimating::LookupSequence - calls engine implementation via signature.
+	// Searches by both sequence label and activity name string (see SDK CStudioHdr::LookupSequence).
+	// Returns sequence index or -1. Returns -1 if signature not available.
+	inline int LookupSequence(const char* label) {
+		return reinterpret_cast<int(__thiscall*)(void*, const char*)>(U::Offsets.m_dwLookupSequence)(this, label);
+	}
+
+	// mstudioseqdesc_t field offsets (consistent across Source engine versions)
+	static constexpr int SEQDESC_OFFSET_BASEPTR = 0x00;
+	static constexpr int SEQDESC_OFFSET_ACTIVITYNAMEINDEX = 0x08;
+
+	// Compute seqdesc stride dynamically using baseptr difference between adjacent entries.
+	// baseptr[i] = -(localseqindex + i * stride), so stride = baseptr[0] - baseptr[1].
+	// Scan range [64, 512]: mstudioseqdesc_t is typically ~212 bytes in Source engine;
+	// 64 is a safe minimum (smallest possible struct), 512 is a conservative maximum.
+	static inline int ComputeSeqdescStride(const byte* seqBase, int numSeq) {
+		if (numSeq < 2) return 0;
+		int baseptr0 = *(const int*)(seqBase + SEQDESC_OFFSET_BASEPTR);
+		// Scan for the second entry by finding where baseptr[1] = baseptr0 - offset
+		for (int offset = 64; offset <= 512; offset += 4) {
+			int candidate = *(const int*)(seqBase + offset);
+			if (candidate == baseptr0 - offset) {
+				return offset;
+			}
+		}
+		return 0;
+	}
+
+	// Get activity name string from a seqdesc entry at the given address.
+	static inline const char* GetSeqdescActivityName(const byte* entryBase) {
+		int nameOffset = *(const int*)(entryBase + SEQDESC_OFFSET_ACTIVITYNAMEINDEX);
+		if (nameOffset == 0) return nullptr;
+		return (const char*)(entryBase + nameOffset);
+	}
+
+
+
+	// Look up the FIRST sequence whose activity name matches (deterministic).
+	// Used for caching/detection where consistent results are needed.
+	// Returns sequence index or -1.
+	inline int LookupFirstSequenceByActivityName(const char* activityName) {
+		const model_t* pModel = this->GetModel();
+		if (!pModel) return -1;
+		const studiohdr_t* pHdr = I::ModelInfo->GetStudiomodel(pModel);
+		if (!pHdr || pHdr->numlocalseq <= 0) return -1;
+
+		const byte* seqBase = (const byte*)pHdr + pHdr->localseqindex;
+
+		if (pHdr->numlocalseq == 1) {
+			const char* name = GetSeqdescActivityName(seqBase);
+			if (name && _stricmp(name, activityName) == 0) return 0;
+			return -1;
+		}
+
+		int stride = ComputeSeqdescStride(seqBase, pHdr->numlocalseq);
+		if (stride <= 0) return -1;
+
+		for (int i = 0; i < pHdr->numlocalseq; i++) {
+			const byte* entry = seqBase + i * stride;
+			const char* name = GetSeqdescActivityName(entry);
+			if (name && _stricmp(name, activityName) == 0) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	// Look up ALL sequences whose activity name matches, then randomly select one.
+	// Supports multi-sequence activities (same ACT name, multiple sequences).
+	// Returns sequence index or -1.
+	inline int LookupRandomSequenceByActivityName(const char* activityName) {
+		const model_t* pModel = this->GetModel();
+		if (!pModel) return -1;
+		const studiohdr_t* pHdr = I::ModelInfo->GetStudiomodel(pModel);
+		if (!pHdr || pHdr->numlocalseq <= 0) return -1;
+
+		const byte* seqBase = (const byte*)pHdr + pHdr->localseqindex;
+
+		if (pHdr->numlocalseq == 1) {
+			const char* name = GetSeqdescActivityName(seqBase);
+			if (name && _stricmp(name, activityName) == 0) return 0;
+			return -1;
+		}
+
+		int stride = ComputeSeqdescStride(seqBase, pHdr->numlocalseq);
+		if (stride <= 0) return -1;
+
+		std::vector<int> matches;
+		for (int i = 0; i < pHdr->numlocalseq; i++) {
+			const byte* entry = seqBase + i * stride;
+			const char* name = GetSeqdescActivityName(entry);
+			if (name && _stricmp(name, activityName) == 0) {
+				matches.push_back(i);
+			}
+		}
+
+		if (matches.empty()) return -1;
+		if (matches.size() == 1) return matches[0];
+
+		static thread_local std::mt19937 gen(std::random_device{}());
+		std::uniform_int_distribution<int> dist(0, static_cast<int>(matches.size()) - 1);
+		return matches[dist(gen)];
+	}
+
+	inline void InvalidateBoneCacheOffset() {
+		// reinterpret_cast<void(__thiscall*)(void*)>(U::Offsets.m_dwInvalidateBoneCache)(this);
+	}
+
+	inline int FindBodygroupByName(const char* name) {
+		return reinterpret_cast<int(__thiscall*)(void*, const char* name)>(U::Offsets.m_dwFindBodygroupByName)(this, name);
+	}
+
+	inline void SetBodygroup(int iGroup, int iValue) {
+		return reinterpret_cast<void(__thiscall*)(void*, int, int)>(U::Offsets.m_dwSetBodygroup)(this, iGroup, iValue);
+	}
+	
 };
 
 class C_BaseAnimatingOverlay : public C_BaseAnimating
@@ -145,6 +305,7 @@ public:
 	M_NETVAR(m_flPrevCycle, float, "CBaseAnimatingOverlay", "m_flPrevCycle");
 	M_NETVAR(m_flWeight, float, "CBaseAnimatingOverlay", "m_flWeight");
 	M_NETVAR(m_nOrder, int, "CBaseAnimatingOverlay", "m_nOrder");
+
 };
 
 class C_BaseFlex : public C_BaseAnimatingOverlay
@@ -179,4 +340,12 @@ class C_BaseViewModel : public C_BaseAnimating
 {
 public:
 	virtual						~C_BaseViewModel() = 0;
+
+public:
+	M_NETVAR(m_nBody , int, "CBaseViewModel", "m_nBody");
+	M_NETVAR(m_hOwner, EHANDLE, "CBaseViewModel", "m_hOwner");
+	M_NETVAR(m_hWeapon , EHANDLE, "CBaseViewModel", "m_hWeapon");
+	M_NETVAR(m_nLayerSequence , int, "CBaseViewModel", "m_nLayerSequence");
+	M_NETVAR(m_flLayerStartTime, float, "CBaseViewModel", "m_flLayerStartTime");
+	
 };

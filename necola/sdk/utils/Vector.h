@@ -149,9 +149,9 @@ public:
 		return sqrtf(x * x + y * y + z * z);
 	}
 
-	float LenghtSqr(void) const
+	float LengthSqr(void) const
 	{
-		return (x * x + y * y + z * z);
+		return sqrtf(x * x + y * y + z * z);
 	}
 
 	float Normalize()
@@ -198,7 +198,7 @@ public:
 
 	float DistToSqr(const Vector& v) const
 	{
-		return (*this - v).LenghtSqr();
+		return (*this - v).LengthSqr();
 	}
 
 	float Dot(const Vector& v) const

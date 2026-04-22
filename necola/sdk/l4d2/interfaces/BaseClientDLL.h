@@ -72,6 +72,15 @@ public:
 	virtual bool			GetPlayerView(void* playerView) = 0;
 	virtual void            UpdateProgressBar(float unk1, const char* unk2) = 0;
 	virtual bool			ShouldHideLoadingPlaque(void) = 0;
+
+
+	public:
+	inline int PrecacheParticleSystemOffset(const char *pParticleSystemName) {
+		return reinterpret_cast<int(__cdecl*)(const char*)>(U::Offsets.m_dwPrecacheParticleSystem)(pParticleSystemName);
+	}
+
+	//inline int PrecacheParticleSystemServerSide(const char*)
+		
 };
 
 namespace I { inline IBaseClientDLL* BaseClient = nullptr; }

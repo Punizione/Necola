@@ -29,6 +29,8 @@ public:
 
 	Vector GetAngleToPosition(const Vector vFrom, const Vector vTo);
 
+	float GetVectorDistance(const Vector vSrc, const Vector vDst);
+
 public:
 	template<typename T>
 	inline T Clamp(const T val, const T min, const T max) {

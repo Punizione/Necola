@@ -69,6 +69,7 @@ public:
 	M_NETVAR(m_attackTimer, void*, "CTerrorWeapon", "m_attackTimer");
 	M_NETVAR(m_swingTimer, void*, "CTerrorWeapon", "m_swingTimer");
 	M_NETVAR(m_nUpgradedPrimaryAmmoLoaded, int, "CTerrorWeapon", "m_nUpgradedPrimaryAmmoLoaded");
+	//M_NETVAR(m_iExtraPrimaryAmmo, int, "CTerrorWeapon", "m_iExtraPrimaryAmmo");
 
 public:
 	inline float& GetCurrentSpread() {
@@ -127,3 +128,12 @@ public:
 	M_NETVAR(m_flGlowRange, float, "CWeaponSpawn", "m_flGlowRange");
 };
 
+
+class C_TerrorMeleeWeapon: public C_TerrorWeapon 
+{
+public:
+	virtual			~C_TerrorMeleeWeapon() = 0;
+
+public:
+	M_NETVAR(m_hMeleeWeaponInfo, int, "CTerrorMeleeWeapon", "m_hMeleeWeaponInfo"); // offset 6112
+};
